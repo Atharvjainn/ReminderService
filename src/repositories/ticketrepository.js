@@ -1,5 +1,5 @@
-const {Notificationticket} = require('../models/index')
-const { Op } = require('sequelize'); 
+const { Notificationticket } = require('../models/index')
+const { Op, DATE } = require('sequelize'); 
 
 class TicketRepository{
 
@@ -17,11 +17,23 @@ class TicketRepository{
             const response = await Notificationticket.findAll({
                 where : {
                     status : "PENDING",
-                    notifationtime : { [ Op.lte ] : new Date()}
+                    notificationtime : { [ Op.lte ] : new Date()}
                 }
             }
             )
             return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async updateTicket(ticketid,data){
+        try {
+            const ticket = await Notificationticket.findByPk(ticketid)
+            if(data.status)
+               ticket.status = data.status
+            await ticket.save()
+            return ticket
         } catch (error) {
             console.log(error);
         }
