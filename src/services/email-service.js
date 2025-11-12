@@ -1,5 +1,6 @@
 const sender = require('../config/emailConfig')
-
+const TicketRepository = require('../repositories/ticketrepository')
+const ticketrepo = new TicketRepository()
 
 const sendBasicEmail = (mailfrom,mailto,mailsubject,mailbody) => {
      sender.sendMail({
@@ -10,4 +11,17 @@ const sendBasicEmail = (mailfrom,mailto,mailsubject,mailbody) => {
    })
 }
 
-module.exports = sendBasicEmail
+
+const createticket = async(data) => {
+   try {
+      const response = await ticketrepo.createticket(data)
+      return response
+   } catch (error) {
+      console.log(error)
+   }
+}
+
+
+module.exports = {
+   sendBasicEmail,createticket
+}

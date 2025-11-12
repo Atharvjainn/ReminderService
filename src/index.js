@@ -3,7 +3,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const { PORT } = require('./config/serverConfig')
 const sender = require('./config/emailConfig')
-const sendBasicEmail = require('./services/email-service')
+const setupJobs = require('./utils/job')
 
 const startUpServer = () => {
     app.use(bodyParser.json())
@@ -11,8 +11,10 @@ const startUpServer = () => {
 
     app.listen(PORT,() => {
         console.log(`Server started at ${PORT}`);
-        sendBasicEmail("lenovoservicecenterr@gmail.com","lenovoservicecenterr@gmail.com","Random mail","Hi, hope you are doing well")
+        setupJobs()
     })
+
+    
 }
 
 
