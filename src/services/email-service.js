@@ -22,6 +22,16 @@ const createticket = async(data) => {
 }
 
 
+const fetchpendingtickets = async() => {
+   try {
+      const response = await ticketrepo.fetchpendingtickets()
+      return response
+   } catch (error) {
+      console.log(error)
+   }
+}
+
+
 module.exports = {
-   sendBasicEmail,createticket
+   sendBasicEmail,createticket,fetchpendingtickets
 }
