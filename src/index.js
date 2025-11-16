@@ -17,11 +17,11 @@ const startUpServer = async() => {
     app.get('/api/v1/tickets',TicketController.fetchtickets)
 
     const channel = await CreateChannel()
-    SubscribeMessage(channel,EmailService,REMINDER_BINDING_KEY)
+    SubscribeMessage(channel,EmailService.subscribedevents,REMINDER_BINDING_KEY)
 
     app.listen(PORT,() => {
         console.log(`Server started at ${PORT}`);
-        // setupJobs()
+        setupJobs()
     })
 
     

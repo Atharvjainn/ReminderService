@@ -2,7 +2,7 @@ const sender = require('../config/emailConfig')
 const TicketRepository = require('../repositories/ticketrepository')
 const ticketrepo = new TicketRepository()
 
-const sendBasicEmail = (mailfrom,mailto,mailsubject,mailbody) => {
+const sendBasicEmail = async(mailfrom,mailto,mailsubject,mailbody) => {
      sender.sendMail({
                 from : mailfrom,
                 to : mailto,
@@ -40,11 +40,25 @@ const updateticket = async(ticketId,data) => {
    }
 }
 
-const testingqueue = async(data) => {
-   console.log("succesfully tested the queue",data);
+const subscribedevents = async(payload) => {
+   const service = payload.service
+   const data = payload.data
+   switch(service){
+      case "CREATE_TICKET" : 
+         await createticket(data);
+         break;
+
+      case "SEND_BASIC_MAIL" :
+         await sendBasicEmail(data)
+         break;
+
+      default :
+         console.log("No valid event received");
+         break
+   }
 }
 
 
 module.exports = {
-   sendBasicEmail,createticket,fetchpendingtickets,updateticket,testingqueue
+   sendBasicEmail,createticket,fetchpendingtickets,updateticket,subscribedevents
 }
