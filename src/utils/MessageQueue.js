@@ -15,10 +15,15 @@ const CreateChannel = async() => {
 
 const SubscribeMessage = async(channel,service,binding_key) => {
     try {
-        const applicationqueue = await channel.assertQueue("QUEUE_NAME")
+        const applicationqueue = await channel.assertQueue("BOOKING_SERVICE")
         channel.bindQueue(applicationqueue.queue,EXCHANGE_NAME,binding_key)
         channel.consume(applicationqueue.queue,(msg) => {
             console.log(msg.content.toString());
+            const payload = JSON.parse(msg.content.toString())
+            if(payload.service == "DEMO SERVICE"){
+                console.log("call demo service");
+                service.testingqueue(payload)
+            }
             channel.ack(msg)
         })
     } catch (error) {
@@ -29,7 +34,7 @@ const SubscribeMessage = async(channel,service,binding_key) => {
 
 const PublishMessage = async(channel,binding_key,msg) => {
     try {
-        await channel.assertQueue("QUEUE_NAME")
+        await channel.assertQueue("BOOKING_SERVICE")
         await channel.publish(EXCHANGE_NAME,binding_key,Buffer.from(msg))
     } catch (error) {
         throw error;

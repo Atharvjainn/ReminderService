@@ -40,7 +40,11 @@ const updateticket = async(ticketId,data) => {
    }
 }
 
+const testingqueue = async(data) => {
+   console.log("succesfully tested the queue",data);
+}
+
 
 module.exports = {
-   sendBasicEmail,createticket,fetchpendingtickets,updateticket
+   sendBasicEmail,createticket,fetchpendingtickets,updateticket,testingqueue
 }
